@@ -13,8 +13,13 @@ var spike;
 var score = 0;
 var scoreText;
 var scoreString;
-var background
-var backgroundSong
+var background;
+var backgroundSong;
+var gameOver = false;
+var gameOverText;
+var startText;
+var started = false;
+
 
 function preload(){
 	game.load.image('spike', 'assets/spike D.png');
@@ -52,9 +57,11 @@ function create(){
 	theSpikes.physicsBodyType = Phaser.Physics.ARCADE;
 
 	//call function createTheSpikes every ranom 1 to 10 seconds
+
 	game.time.events.repeat(Phaser.Timer.SECOND * game.rnd.integerInRange(2, 10), 7, createTheSpikes, this);
 	game.time.events.add(Phaser.Timer.SECOND * 30, level2, this);
 	game.time.events.add(Phaser.Timer.SECOND * 60, level3, this);
+
 
 	function level2(){
 		game.time.events.repeat(Phaser.Timer.SECOND * game.rnd.integerInRange(2, 5), 10000, createTheSpikes, this);
@@ -67,9 +74,10 @@ function create(){
 
 	//score
 	scoreString = "Your score:";
-	scoreText = game.add.text(10,10,scoreString + score, {font: '32px Arial', fill: '#fff' });
+	scoreText = game.add.text(10,12,scoreString + score, {font: '32px Arial', fill: '#fff' });
 
 
+	startText = game.add.text(260,260,'Press spacebar to Jump!!', {font: '52px Arial', fill: '#fff' });
 
 
 
@@ -86,10 +94,27 @@ function update(){
 	}
 
 	//if gametime is more then 2 seconds start the score countign
-	if (this.game.time.now > 2000){
+	if (this.game.time.now > 2000 && gameOver == false){
 		score = Math.round((this.game.time.now - 2000) / 100);
 		scoreText.text = scoreString + score;
 	}
+
+	//kill tutorial after first jump
+	if (jumpB.isDown && started == false){
+		started = true;
+		startText.kill();
+	}
+
+	//display game over text if player is game over
+	if (gameOver == true){
+		gameOverText = game.add.text(334, 200, "Game Over, spacebar to restart!", {font: '32px Arial', fill: '#fff' })
+	}
+	//if game is over and spacebar is pressed reload the game
+	if (gameOver == true && jumpB.isDown){
+		location.reload();
+	}
+
+
 
 	//makes the ball roll
 	player.angle += 8;
@@ -111,5 +136,6 @@ function createTheSpikes(){
 //kills the player and restarts the game
 function killPlayer(player,theSpikes){
 	player.kill();
-	location.reload();
+	gameOver = true;
+
 }
