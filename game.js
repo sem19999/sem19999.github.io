@@ -52,7 +52,17 @@ function create(){
 	theSpikes.physicsBodyType = Phaser.Physics.ARCADE;
 
 	//call function createTheSpikes every ranom 1 to 10 seconds
-	game.time.events.repeat(Phaser.Timer.SECOND * game.rnd.integerInRange(1, 10), 100000, createTheSpikes, this);
+	game.time.events.repeat(Phaser.Timer.SECOND * game.rnd.integerInRange(2, 10), 7, createTheSpikes, this);
+	game.time.events.add(Phaser.Timer.SECOND * 30, level2, this);
+	game.time.events.add(Phaser.Timer.SECOND * 60, level3, this);
+
+	function level2(){
+		game.time.events.repeat(Phaser.Timer.SECOND * game.rnd.integerInRange(2, 5), 10000, createTheSpikes, this);
+	}
+
+	function level3(){
+		game.time.events.repeat(Phaser.Timer.SECOND * game.rnd.integerInRange(2, 14), 10000, createTheSpikes, this);
+	}
 
 
 	//score
