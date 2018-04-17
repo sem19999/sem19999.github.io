@@ -20,7 +20,7 @@ function preload(){
 	game.load.image('spike', 'assets/spike D.png');
 	game.load.image('background', 'assets/background.jpg')
 	game.load.spritesheet('player', 'assets/playerBall.png');
-	game.load.audio('backgroundSong', 'assets/Feyenoord Lied.mp3')
+	game.load.audio('backgroundSong', 'assets/song.mp3')
 }
 
 function create(){
